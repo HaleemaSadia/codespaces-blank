@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Image, Alert } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { getBookDetail } from "./booksApi";
 import { getBookDetailDone, getBookDetailError } from "./bookSlice";
 
@@ -12,15 +12,13 @@ const BookDetailScreen = (props: BookDetailScreenProps): JSX.Element => {
   const selectedBookId = useSelector((state) => state.selectedBookId);
   const selectedBook = useSelector((state) => state.selectedBook);
 
-  const dispatch = useDispatch();
-
   useEffect(async () => {
-    dispatch(getBookDetail(selectedBookId));
+    getBookDetail(selectedBookId);
     try {
       let response = await getBookDetail(selectedBookId);
-      dispatch(getBookDetailDone(response));
+      getBookDetailDone(response);
     } catch (e) {
-      dispatch(getBookDetailError());
+      getBookDetailError();
       Alert.alert("Fetch books failed with error: ", e);
     }
   }, []);
